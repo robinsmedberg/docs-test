@@ -203,7 +203,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../home/" class="md-tabs__link">
+    <a href="../.." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -310,7 +310,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../home/" class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -773,10 +773,6 @@
 </ul>
 <h2 id="install-openshift">Install Openshift<a class="headerlink" href="#install-openshift" title="Permanent link">&para;</a></h2>
 <p>Reference <a href="https://docs.openshift.com/container-platform/4.11/installing/installing_openstack/installing-openstack-installer-custom.html">Openshift installation guide</a></p>
-<!-- 1. Download [openshift installer](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/)
-
-    - Select installation file based on the installation computer OS -->
-
 <ol>
 <li>
 <p>Clone repo <a href="https://github.com/agronod/openshift-install">https://github.com/agronod/openshift-install</a></p>
@@ -794,6 +790,11 @@
 <li>
 <p><a href="https://docs.openshift.com/container-platform/4.11/installing/installing_openstack/installing-openstack-installer-custom.html#ssh-agent-using_installing-openstack-installer-custom">Generate SSH key</a></p>
 </li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">#mac/linux</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ssh-keygen -t ed25519 -N <span class="s1">&#39;&#39;</span> -f ~/.ssh/<span class="o">{</span>cluster name<span class="o">}</span>
+</code></pre></div>
+<ol>
 <li>
 <p>Download "clouds.yaml" from HORIZON / API Access / Download Openstack RC file into repo root folder</p>
 </li>
@@ -803,8 +804,8 @@
 <li>
 <p>Update <code>&lt;installation directory&gt;</code>/install-config.yaml</p>
 <ul>
-<li>sshKey - generated public key</li>
-<li>pullSecret - downloaded in previous step</li>
+<li>sshKey - <code>cat ~/.ssh/{cluster name}.pub</code></li>
+<li>pullSecret - <code>cat &lt;path&gt;/&lt;pull_secret&gt;</code></li>
 <li>ingressFloatingIP - from HORIZON / Network / Floating IPs</li>
 <li>apiFloatingIP - from HORIZON / Network / Floating IPs</li>
 <li>additionalSecurityGroupIDs - From HORIZON / Network / Security Groups</li>
@@ -814,7 +815,7 @@
 <p>Generate manifests</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./openshift-install --dir &lt;installation_directory&gt; create manifests
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>./openshift-install --dir &lt;installation_directory&gt; create manifests
 </code></pre></div>
 <ol>
 <li>
@@ -831,7 +832,7 @@
 <p>Create cluster</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>./openshift-install create cluster --dir &lt;installation_directory&gt; --log-level<span class="o">=</span>debug
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./openshift-install create cluster --dir &lt;installation_directory&gt; --log-level<span class="o">=</span>debug
 </code></pre></div>
 
 
