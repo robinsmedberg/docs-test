@@ -15,8 +15,8 @@ jobs:
     env:
         UML_FILES: ".puml"
     steps:
-      - name: Checkout Source 
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           
@@ -48,10 +48,41 @@ jobs:
       # - run: pip install mkdocs-material 
       # # - run: mkdocs gh-deploy --force
 
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+      # - name: Deploy docs
+      #   uses: mhausenblas/mkdocs-deploy-gh-pages@master
+      #   # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+      #     CONFIG_FILE: mkdocs.yml      
+      #     REQUIREMENTS: requirements.txt          
+
+
+      - name: Set up Python runtime
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up build cache
+        uses: actions/cache@v3
+        id: cache
+        with:
+          key: ${{ runner.os }}-${{ hashFiles('.cache/**') }}
+          path: .cache
+
+      - name: Install Python dependencies
+        run: |
+          pip install .
+          pip install \
+            "cairosvg>=2.5" \
+            "mkdocs-git-committers-plugin-2>=1.1.1" \
+            "mkdocs-git-revision-date-localized-plugin>=1.0" \
+            "mkdocs-minify-plugin>=0.3" \
+            "mkdocs-rss-plugin>=1.2" \
+            "mkdocs-redirects>=1.0" \
+            "pillow<10"
+      - name: Deploy documentation
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-          CONFIG_FILE: mkdocs.yml      
-          REQUIREMENTS: requirements.txt          
+          GH_TOKEN: ${{ secrets.GITHUBTOKEN }}
+        run: |
+          mkdocs gh-deploy --force
+          mkdocs --version
