@@ -76,5 +76,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
-          mkdocs gh-deploy --force
+          mkdocs gh-deploy --clean --force
           mkdocs --version
