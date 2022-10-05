@@ -76,10 +76,6 @@ openstack floating ip create --description "Ingress {cluster name}.agronod.com" 
 
 Reference [Openshift installation guide](https://docs.openshift.com/container-platform/4.11/installing/installing_openstack/installing-openstack-installer-custom.html)
 
-<!-- 1. Download [openshift installer](https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/)
-
-    - Select installation file based on the installation computer OS -->
-
 1. Clone repo https://github.com/agronod/openshift-install
 
 2. [Download installer](https://console.redhat.com/openshift/create)
@@ -91,14 +87,19 @@ Reference [Openshift installation guide](https://docs.openshift.com/container-pl
 
 4. [Generate SSH key](https://docs.openshift.com/container-platform/4.11/installing/installing_openstack/installing-openstack-installer-custom.html#ssh-agent-using_installing-openstack-installer-custom)
 
+```bash
+#mac/linux
+ssh-keygen -t ed25519 -N '' -f ~/.ssh/{cluster name}
+```
+
 5. Download "clouds.yaml" from HORIZON / API Access / Download Openstack RC file into repo root folder
 
 6. Copy "install-config.yaml" into ```<installation directory>```
 
 7. Update ```<installation directory>```/install-config.yaml
 
-    - sshKey - generated public key
-    - pullSecret - downloaded in previous step
+    - sshKey - ```cat ~/.ssh/{cluster name}.pub```
+    - pullSecret - ```cat <path>/<pull_secret>```
     - ingressFloatingIP - from HORIZON / Network / Floating IPs
     - apiFloatingIP - from HORIZON / Network / Floating IPs
     - additionalSecurityGroupIDs - From HORIZON / Network / Security Groups

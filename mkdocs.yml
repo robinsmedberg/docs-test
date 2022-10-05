@@ -7,7 +7,6 @@ theme:
   include_search_page: false
   search_index_only: true
   
-  
   name: material
   font:
     text: Roboto
@@ -98,7 +97,7 @@ plugins:
   # - minify:
   #     minify_html: true      
 nav:
-  - Home: home.md
+  - Home: index.md
   - Architecture:
       - architecture/system-context.md
       - architecture/platform.md      
