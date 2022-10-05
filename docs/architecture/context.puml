@@ -1,0 +1,31 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/users.puml
+
+Person(user, "Användare", "", $sprite="users")
+Boundary(agronod_boundary, "Agronod") {
+    System(agronod, "Dataplattform", "Dataplattform för lantbruk")
+    System(agrosfar, "Agrosfär", "Klimatberäkning")
+    System(fence, "Fullmaktsapplikation", "Godkännande av datahantering")
+}
+
+System_Ext(datavaxt_api, "Dataväxt", "Skifteshändelser")
+System_Ext(vaxa_api, "Växa", "Djurhändelser kring nötkreatur")
+System_Ext(lantmannen_api, "Lantmännen", "Produktdata, säljordrar")
+System_Ext(jordbruksverket_api, "Jordbruksverket", "Djurhändelser kring nötkreatur")
+System_Ext(hushallningssallskapet_api, "Hushållningssällskapet", "Markkarteringsdata")
+
+user --> agrosfar
+agrosfar <..> agronod
+agronod .left.> fence
+agronod ..> datavaxt_api
+agronod ..> vaxa_api
+agronod ..> lantmannen_api
+agronod ..> jordbruksverket_api
+agronod ..> hushallningssallskapet_api
+
+@enduml
+

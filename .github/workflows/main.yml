@@ -1,0 +1,52 @@
+name: Build docs
+on:
+  push:
+    paths:
+      - '**.puml'
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+        UML_FILES: ".puml"
+    steps:
+      - name: Checkout Source 
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Get changed UML files
+        id: getfile
+        run: |
+          echo "::set-output name=files::$(git diff --name-only HEAD^ HEAD | grep .puml | xargs)"
+
+      - name: Generate SVG Diagrams
+        continue-on-error: true
+        uses: holowinski/plantuml-github-action@main
+        with:
+          args: -v -tsvg ${{steps.getfile.outputs.files}}
+
+      - name: Push Local Changes
+        if: steps.generate-svg-diagrams.outcome == 'success'  
+        uses:  stefanzweifel/git-auto-commit-action@v4.1.2 
+        with: 
+          commit_message: "Generate SVG and PNG images for PlantUML diagrams" 
+          branch: ${{ github.head_ref }}
+
+      - name: Checkout main
+        if: steps.generate-svg-diagrams.outcome == 'success' 
+        uses: actions/checkout@v2
+
+      - name: Deploy docs
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+          CONFIG_FILE: mkdocs.yml

@@ -1,0 +1,111 @@
+site_name: Agronod - datadelningsplattform
+repo_url: https://github.com/agronod/docs
+# strict: true
+docs_dir: docs
+theme:
+  # Don't include MkDocs' JavaScript
+  include_search_page: false
+  search_index_only: true
+  
+  name: material
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: assets/Agronod+livsmedelsproduktion+logga+svart.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: agronod-light
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: agronod-dark
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    # - announce.dismiss
+    - content.code.annotate
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+extra_css:
+  - stylesheets/extra.css    
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+plugins:
+  - search
+  # - redirects:
+  #     redirect_maps:
+  #       changelog/insiders.md: insiders/changelog.md
+  #       conventions.md: philosophy.md
+  #       reference/abbreviations.md: reference/tooltips.md
+  #       reference/meta-tags.md: reference/index.md
+  #       reference/variables.md: https://mkdocs-macros-plugin.readthedocs.io/
+  #       sponsorship.md: insiders/index.md
+  #       upgrading.md: upgrade.md
+  # - minify:
+  #     minify_html: true      
+nav:
+  - Home: home.md
+  - Architecture:
+      - architecture/system-context.md
+      - architecture/platform.md      
+      - architecture/agrosphere.md
+      - architecture/fence.md
+  - Developer Guide:
+      - developer-guide/contributing.md
+      - developer-guide/local-development.md
+      - developer-guide/visma.md
+  - Operator Manual:
+      - operator-manual/binero-openshift-setup.md
